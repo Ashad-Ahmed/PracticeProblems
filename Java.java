@@ -113,7 +113,7 @@ class MyArray
     }
 }
 
-//Problem 2: Find a subarray that sums up to a target value. (Say 0, 9 etc..)
+//Problem 3: Find a subarray that sums up to a target value. (Say 0, 9 etc..)
 
 import java.util.HashMap;
 import java.util.Map;
