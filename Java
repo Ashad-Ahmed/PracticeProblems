@@ -1,3 +1,8 @@
+// Problem: Check if the nodes of a given BST lie within a given range of Min and Max
+// A problem to traverse the entire BST and check if the nodes satisfy a given condition.
+// Key: While traversing the tree, replace the "Print" statement with a logic to check for the given condition.
+// Variants: return true/false, return number of nodes satisfying/not satisfying above condition.
+
 class Node{
     int data;
     Node left, right;
