@@ -165,3 +165,222 @@ class MyArray
 }
 
 
+// ==========================================
+// 2D Matrix Traversal using BFS [Uses Queue]
+// ==========================================
+
+import java.util.Queue;
+import java.util.LinkedList;
+
+class MyArray{
+
+    static class pair
+    {
+        int first, second;
+
+        public pair(int first, int second)
+        {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
+    static final int ROW = 4;
+    static final int COL = 4;
+
+    // Direction vectors
+    static int dRow[] = {0, 1, 0, -1};
+    static int dCol[] = {-1, 0, 1,  0};
+
+    // Function to check if a cell
+    // is be visited or not
+    static boolean isValid(boolean vis[][],
+                           int row, int col)
+    {
+
+        // If cell lies out of bounds
+        if (row < 0 || col < 0 ||
+                row >= ROW || col >= COL)
+            return false;
+
+        // If cell is already visited
+        if (vis[row][col])
+            return false;
+
+        // Otherwise
+        return true;
+    }
+
+    // Function to perform the BFS traversal
+    static void BFS(int row, int col, int grid[][], boolean vis[][])
+    {
+
+        // Stores indices of the matrix cells
+        Queue<pair> q = new LinkedList<>();
+
+        // Mark the starting cell as visited
+        // and push it into the queue
+        q.add(new pair(row, col));
+        vis[row][col] = true;
+
+        // Iterate while the queue
+        // is not empty
+        while (!q.isEmpty())
+        {
+            pair cell = q.peek();
+            row = cell.first;
+            col = cell.second;
+
+            System.out.print(grid[row][col] + " ");
+
+            q.remove();
+
+            // Go to the adjacent cells
+            for(int i = 0; i < 4; i++)
+            {
+                int adjx = row + dRow[i];
+                int adjy = col + dCol[i];
+
+                if (isValid(vis, adjx, adjy))
+                {
+                    q.add(new pair(adjx, adjy));
+                    vis[adjx][adjy] = true;
+                }
+            }
+        }
+    }
+
+    // Driver Code
+    public static void main(String[] args)
+    {
+
+        // Given input matrix
+        int grid[][] = { { 1,   2,   3,  4 },
+                         { 5,   6,   7,  8 },
+                         { 9,  10,  11, 12 },
+                        {  13, 14,  15, 16 } };
+
+        // Declare the visited array
+        boolean vis[][] = new boolean[ROW][COL];
+        for(int i = 0; i < ROW; i++)
+        {
+            for(int j = 0; j < COL; j++)
+            {
+                vis[i][j] = false;
+            }
+        }
+
+        BFS(0,0,grid, vis);
+    }
+}
+
+
+// ==========================================
+// 2D Matrix Traversal using DFS [Uses Stack]
+// ==========================================
+
+import java.util.Stack;
+
+class MyArray{
+
+    static int ROW = 4;
+    static int COL = 4;
+
+    // Initialize direction vectors
+    // Direction vectors
+    static int dRow[] = { 0, 0, 1, -1 };
+    static int dCol[] = { -1, 1, 0, 0 };
+
+    static class pair
+    {
+        public int first;
+        public int second;
+
+        public pair(int first, int second)
+        {
+            this.first = first;
+            this.second = second;
+        }
+    }
+
+    static Boolean isValid(Boolean vis[][], int row, int col)
+    {
+
+        // If cell is out of bounds
+        if (row < 0 || col < 0 ||
+                row >= ROW || col >= COL)
+            return false;
+
+        // If the cell is already visited
+        if (vis[row][col])
+            return false;
+
+        // Otherwise, it can be visited
+        return true;
+    }
+
+    // Function to perform DFS
+    // Traversal on the matrix grid[]
+    static void DFS(int row, int col, int grid[][], Boolean vis[][])
+    {
+
+        // Initialize a stack of pairs and
+        // push the starting cell into it
+        Stack<pair> st = new Stack<pair>();
+        st.push(new pair(row, col));
+
+        // Iterate until the
+        // stack is not empty
+        while (!st.empty())
+        {
+            // Pop the top pair
+            pair curr = st.pop();
+
+            row = curr.first;
+            col = curr.second;
+
+            // Check if the current popped
+            // cell is a valid cell or not
+            if (!isValid(vis, row, col))
+                continue;
+
+            vis[row][col] = true;
+            // Print the element at
+            // the current top cell
+            System.out.print(grid[row][col] + " ");
+
+            // Push all the adjacent cells
+            for(int i = 0; i < 4; i++)
+            {
+                int adjx = row + dRow[i];
+                int adjy = col + dCol[i];
+                st.push(new pair(adjx, adjy));
+
+                // Mark the current
+                // cell as visited
+            }
+        }
+    }
+
+    // Driver code
+    public static void main(String[] args)
+    {
+        // Given input matrix
+        int grid[][] = { { 1,   2,   3,  4 },
+                         { 5,   6,   7,  8 },
+                         { 9,  10,  11, 12 },
+                        {  13, 14,  15, 16 } };
+
+        Boolean vis[][] = new Boolean[ROW][COL];
+        for(int i = 0; i < ROW; i++)
+        {
+            for(int j = 0; j < COL; j++)
+            {
+                vis[i][j] = false;
+            }
+        }
+
+        // Function call
+        DFS(0, 0, grid, vis);
+    }
+}
