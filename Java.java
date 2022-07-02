@@ -836,3 +836,59 @@ class MyArray
     }
 }
 
+
+// My Kind of Sorting, but it doesn't work as the size of array increases, repeating the operation several times seems to work
+
+class MyArray{
+
+    static void swap(int[] arr, int i, int j) {
+
+        int temp;
+
+        if (i < j){
+            temp = i;
+            j = i;
+            i = temp;
+        }
+
+        temp = arr[j];
+        arr[j] = arr[i];
+        arr[i] = temp;
+    }
+
+    static void sort(int[] arr){
+        for (int i = 0, j = arr.length-1; i < arr.length-1; i++, j--) {
+
+            // Case-1
+            if (arr[i] > arr[i + 1]) {
+                swap(arr, i + 1, i);
+            }
+
+            if (arr[j - 1] > arr[j]) {
+                swap(arr, j, j - 1);
+            }
+
+            //Case-2
+            if (arr[i] > arr[j - 1]) {
+                swap(arr, j - 1, i);
+            }
+
+            if (arr[i + 1] > arr[j]) {
+                swap(arr, j, i + 1);
+            }
+        }
+
+        for (int i = 0; i < arr.length; i++){
+            System.out.print(arr[i] + " ");
+        }
+
+    }
+
+    public static void main(String[] Args){
+
+        int[] arr = {-4,0,7,4,9,-5,-1,0,-7,-1};
+        sort(arr);
+
+    }
+}
+
