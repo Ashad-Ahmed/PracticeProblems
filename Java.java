@@ -69,7 +69,10 @@ class MyArray{
 }
 
 
-//Problem 2: Find a pair that sums up to a given target.
+
+//                                               ########################### Arrays ############################
+
+//Problem 3.1: Find a pair that sums up to a given target.
 // Notice the problem solving approach, this approach can be extended to problems where we find subarray that sums up to a value. (Problem3)
 
 import java.util.HashMap;
@@ -113,7 +116,64 @@ class MyArray
     }
 }
 
-//Problem 3: Find a subarray that sums up to a target value. (Say 0, 9 etc..)
+//Problem 2.1: Subarray with a given sum exists or not?
+// Observe difference from problem 2.2, In this problem we just want to return True or False
+
+import java.util.HashSet;
+import java.util.Set;
+ 
+class Main
+{
+    // Function to check if subarray with the given sum exists in
+    // the array or not
+    public static boolean findSubarray(int[] nums, int target)
+    {
+        // create an empty set
+        Set<Integer> set = new HashSet<>();
+ 
+        // insert number 0 into the set to handle the case when a
+        // subarray with the given sum starts from index 0
+        set.add(0);
+ 
+        // keep track of the sum of elements so far
+        int sum_so_far = 0;
+ 
+        // traverse the given array
+        for (int i: nums)
+        {
+            // update `sum_so_far`
+            sum_so_far += i;
+ 
+            // if `sum_so_far - target` is seen before, we have found
+            // the subarray with sum equal to `target`
+            if (set.contains(sum_so_far - target)) {
+                return true;
+            }
+ 
+            // otherwise, search the sum of elements so far in the set
+            set.add(sum_so_far);
+        }
+ 
+        // we reach here when no subarray exists
+        return false;
+    }
+ 
+    public static void main(String[] args)
+    {
+        // an integer array
+        int[] nums = { 8, 7, 2, 5, 3, 1 };
+        int target = 10;
+ 
+        if (findSubarray(nums, target)) {
+            System.out.println("Subarray with the given sum exists");
+        }
+        else {
+            System.out.println("Subarray with the given sum does not exist");
+        }
+    }
+}
+
+//Problem 2.2: Find and print a subarray that sums up to a target value. (Say 0, 9 etc..)
 
 import java.util.HashMap;
 import java.util.Map;
@@ -163,6 +223,129 @@ class MyArray
         findSubarray(nums, target);
     }
 }
+
+// Problem: Find all subarrays summing to a given sum (0, 9 .. etc..)
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+class MyArray
+{
+    // Utility function to insert <key, value> into the multimap
+    private static<K, V> void insert(Map<K, List<V>> hashMap, K key, V value)
+    {
+        // if the key is seen for the first time, initialize the list
+        hashMap.putIfAbsent(key, new ArrayList<>());
+        hashMap.get(key).add(value);
+    }
+
+    // Function to print all subarrays with a zero-sum in a given array
+    public static void printAllSubarrays(int[] nums, int target)
+    {
+        // create an empty multimap to store the ending index of all
+        // subarrays having the same sum
+        Map<Integer, List<Integer>> hashMap = new HashMap<>();
+
+        // insert (0, -1) pair into the map to handle the case when
+        // subarray with zero-sum starts from index 0
+        insert(hashMap, 0, -1);
+
+        int sum = 0;
+
+        // traverse the given array
+        for (int i = 0; i < nums.length; i++)
+        {
+            // sum of elements so far
+            sum += nums[i];
+
+            // if the sum is seen before, there exists at least one
+            // subarray with zero-sum
+            if (hashMap.containsKey(sum - target))
+            {
+                List<Integer> list = hashMap.get(sum - target);
+
+                // find all subarrays with the same sum
+                for (Integer value: list)
+                {
+                    System.out.println("Subarray [" + (value + 1) + "…" +
+                            i + "]");
+                }
+            }
+
+            // insert (sum so far, current index) pair into the multimap
+            insert(hashMap, sum, i);
+        }
+    }
+
+    public static void main (String[] args)
+    {
+        int[] nums = { 3, 4, -7, 3, 1, 3, 1, -4, -2, -2 };
+        int target = 8;
+
+        printAllSubarrays(nums, target);
+    }
+}
+
+// Problem: Find Maximum Length SubArray
+
+import java.util.Map;
+import java.util.HashMap;
+
+class MyArray
+{
+    // Find the maximum length subarray with sum `S` present in a given array
+    public static void findMaxLenSubarray(int[] nums, int S)
+    {
+        // create an empty HashMap to store the ending index of the first
+        // subarray having some sum
+        Map<Integer, Integer> map = new HashMap<>();
+
+        // insert (0, -1) pair into the set to handle the case when a
+        // subarray with sum `S` starts from index 0
+        map.put(0, -1);
+
+        int target = 0;
+
+        // `len` stores the maximum length of subarray with sum `S`
+        int len = 0;
+
+        // stores ending index of the maximum length subarray having sum `S`
+        int ending_index = -1;
+
+        // traverse the given array
+        for (int i = 0; i < nums.length; i++)
+        {
+            // sum of elements so far
+            target += nums[i];
+
+            // if the sum is seen for the first time, insert the sum with its
+            // into the map
+            map.putIfAbsent(target, i);
+
+            // update length and ending index of the maximum length subarray
+            // having sum `S`
+            if (map.containsKey(target - S) && len < i - map.get(target - S))
+            {
+                len = i - map.get(target - S);
+                ending_index = i;
+            }
+        }
+
+        // print the subarray
+        System.out.println("[" + (ending_index - len + 1) + ", " + ending_index + "]");
+    }
+
+    public static void main (String[] args)
+    {
+        int[] nums = { 3, 4, -7, 3, 1, 3, 1, -4, -2, -2 };
+        int target = 8;
+
+        findMaxLenSubarray(nums, target);
+    }
+}
+
 
 
 // ==========================================
