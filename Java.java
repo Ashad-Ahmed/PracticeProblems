@@ -892,3 +892,24 @@ class MyArray{
     }
 }
 
+// Generate Oscillating numbers between two extremes
+
+class MyArray{
+    public static void main(String[] Args){
+        int dir = 1, ind = 0;
+        int num = 3;
+        int length = 20;
+
+        for (int i=0;i<length;i++) {
+            System.out.print(ind + " ");
+            if (dir == -1) {
+                ind -= 1;
+            }else {
+                ind += 1;
+            }
+            if (ind == 0 || ind == num-1){
+                dir *= -1;
+            }
+        }
+    }
+}
