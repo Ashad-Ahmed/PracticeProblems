@@ -156,3 +156,27 @@ class MyArray
     }
 }
 
+
+// House Robber , time limit exceeding
+
+class MyArray{
+    public static int rec(int n, int str, int chr, int chr_prev, int[] arr){
+
+        if (chr_prev != -1 && chr == 1 && chr_prev == chr){return 0;}
+        if (n == 0) {
+            //System.out.println(str + chr*arr[0]);
+            return str + chr*arr[0];
+        }
+
+        if (chr == -1){str = 0;}
+        else {str += chr*arr[n];}
+
+        return Integer.max(rec(n - 1, str, 0, chr, arr), rec(n - 1, str, 1, chr, arr));
+    }
+
+    public static void main(String[] Args){
+        int str = 0;
+        int[] arr = {1,2,3,1};
+        System.out.println(rec(arr.length, str, -1, -1, arr));
+    }
+}
