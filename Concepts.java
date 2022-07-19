@@ -98,16 +98,16 @@ COMBINATION SUM 2 -
         }
         
         for(int j=i; j<arr.size(); j++) {
-            if(j > i && arr[j] == arr[j-1]) continue;
+            if(j > i && arr[j] == arr[j-1]) continue; // Notice this line
             temp.push_back(arr[j]);
-            helper(j+1,arr,target-arr[j],temp);
+            helper(j+1,arr,target-arr[j],temp);       // Notice j+1 here
             temp.pop_back();
         }
         
     }
     vector<vector<int>> combinationSum2(vector<int>& arr, int target) {
         vector<int> temp;
-        sort(arr.begin(),arr.end());
+        sort(arr.begin(),arr.end());                  // We're sorting here
         helper(0,arr,target,temp);
         return res;
     }
