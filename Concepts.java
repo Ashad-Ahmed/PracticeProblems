@@ -128,24 +128,43 @@ class MyArray{
 
 
 COMBINATION SUM 3  (essentially the question becomes to find combinations of arrays with size k with numbers from the array {1,2,3,4,5,6,7,8,9} with sum == target (or n) )
-vector<vector<int>> res;
-    void helper(int i, vector<int>& arr, int target, vector<int> temp, int k) {
-        if(temp.size() == k) {
-            if(target == 0) res.push_back(temp);
-            return;
-        }
-        
-        for(int j=i; j < arr.size(); j++) {
-            temp.push_back(arr[j]);
-            helper(j+1,arr,target-arr[j],temp,k);
-            temp.pop_back();
-        }
-    }
+class Solution {
     
-    vector<vector<int>> combinationSum3(int k, int target) {
-        vector<int> temp;
-        vector<int> arr = {1,2,3,4,5,6,7,8,9};
-        helper(0,arr,target,temp,k);
+    List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> combinationSum(int[] candidates, int target, int k) {
+
+        List<Integer> temp = new ArrayList<>();
+        combinations(candidates, target,0, res, temp, k);
         return res;
     }
 
+    static void combinations(int[] arr, int target, int i, List<List<Integer>> res, List<Integer> temp, int k){
+
+        if(temp.size() == k && target == 0){
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+
+        if(target < 0){
+            return;
+        }
+
+        for(int j=i;j<arr.length;j++){
+            if(j > i && arr[j] == arr[j-1]){ continue;};
+            temp.add(arr[j]);
+            combinations(arr, target - arr[j], j+1, res, temp, k);
+            temp.remove(temp.size()-1);
+        }
+    }
+}
+
+class MyArray{
+    
+    public static void main(String[] Args){
+        
+        Solution sol = new Solution();
+        int[] arr = {1, 2, 3, 4, 5};
+        Arrays.sort(arr);
+        System.out.print(sol.combinationSum(arr, 5, 2));
+    }
+}
