@@ -37,3 +37,48 @@ class Solution {
         return arr[n];
     }
 }
+
+// Below is a generic template which tells how to solve any backtracking problem
+
+void findSolutions(n, other params) :
+    if (found a solution) :
+        solutionsFound = solutionsFound + 1;
+        displaySolution();
+        if (solutionsFound >= solutionTarget) : 
+            System.exit(0);
+        return
+
+    for (val = first to last) :
+        if (isValid(val, n)) :
+            applyValue(val, n);
+            findSolutions(n+1, other params);
+            removeValue(val, n);
+
+// Below is an example problem to find all subsets of a superset which sum to a target values:
+
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+         List<List<Integer>> list = new ArrayList<>();
+         List<Integer> tempList = new ArrayList<>();
+         sum(candidates,target,tempList,list,0);
+         return list;
+    } 
+    public void sum(int[] candidates,int target,List<Integer> tempList,List<List<Integer>> list,int index)
+    {
+        if(index == candidates.length){
+            if(target == 0){
+               list.add(new ArrayList(tempList));
+            }
+            return;
+        }
+        
+        if(target >= candidates[index])
+        {
+            tempList.add(candidates[index]);
+            sum(candidates,target-candidates[index],tempList,list,index);
+            tempList.remove(tempList.size()-1);
+        }
+         sum(candidates,target,tempList,list,index+1);         
+    }
+}
+
