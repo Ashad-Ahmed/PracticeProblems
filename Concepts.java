@@ -56,29 +56,79 @@ void findSolutions(n, other params) :
 
 // Below is an example problem to find all subsets of a superset which sum to a target values:
 
-class Solution {
-    public List<List<Integer>> combinationSum(int[] candidates, int target) {
-         List<List<Integer>> list = new ArrayList<>();
-         List<Integer> tempList = new ArrayList<>();
-         sum(candidates,target,tempList,list,0);
-         return list;
-    } 
-    public void sum(int[] candidates,int target,List<Integer> tempList,List<List<Integer>> list,int index)
-    {
-        if(index == candidates.length){
-            if(target == 0){
-               list.add(new ArrayList(tempList));
-            }
+COMBINATION SUM -
+ vector<vector<int>> res;
+    void func(int i , vector<int> arr, int target, vector<int> &temp){
+ 
+        if(target == 0){
+            res.push_back(temp);
+            return ;
+        }
+ 
+        if(target < 0){  
+            return;
+        }
+ 
+        for(int j = i; j<arr.size(); j++){
+            temp.push_back(arr[j]);
+            func(j , arr, target - arr[j] , temp); // we dont pass j+1
+            temp.pop_back();
+        }
+    }
+ 
+ 
+    vector<vector<int>> combinationSum(vector<int>& arr, int target) {
+        vector<int> temp;
+        func(0 , arr, target, temp);
+        return res;
+    }
+	
+COMBINATION SUM 2 -
+    vector<vector<int>> res;
+    void helper(int i, vector<int>& arr, int target, vector<int>& temp) {
+        if(target == 0) {
+            res.push_back(temp);
             return;
         }
         
-        if(target >= candidates[index])
-        {
-            tempList.add(candidates[index]);
-            sum(candidates,target-candidates[index],tempList,list,index);
-            tempList.remove(tempList.size()-1);
+        if(target < 0) {
+            return;
         }
-         sum(candidates,target,tempList,list,index+1);         
+        
+        for(int j=i; j<arr.size(); j++) {
+            if(j > i && arr[j] == arr[j-1]) continue;
+            temp.push_back(arr[j]);
+            helper(j+1,arr,target-arr[j],temp);
+            temp.pop_back();
+        }
+        
     }
-}
+    vector<vector<int>> combinationSum2(vector<int>& arr, int target) {
+        vector<int> temp;
+        sort(arr.begin(),arr.end());
+        helper(0,arr,target,temp);
+        return res;
+    }
+	
+COMBINATION SUM 3  (essentially the question becomes to find combinations of arrays with size k with numbers from the array {1,2,3,4,5,6,7,8,9} with sum == target (or n) )
+vector<vector<int>> res;
+    void helper(int i, vector<int>& arr, int target, vector<int> temp, int k) {
+        if(temp.size() == k) {
+            if(target == 0) res.push_back(temp);
+            return;
+        }
+        
+        for(int j=i; j < arr.size(); j++) {
+            temp.push_back(arr[j]);
+            helper(j+1,arr,target-arr[j],temp,k);
+            temp.pop_back();
+        }
+    }
+    
+    vector<vector<int>> combinationSum3(int k, int target) {
+        vector<int> temp;
+        vector<int> arr = {1,2,3,4,5,6,7,8,9};
+        helper(0,arr,target,temp,k);
+        return res;
+    }
 
