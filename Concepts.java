@@ -56,30 +56,33 @@ void findSolutions(n, other params) :
 
 // Below is an example problem to find all subsets of a superset which sum to a target values:
 
-COMBINATION SUM -
- vector<vector<int>> res;
-    void func(int i , vector<int> arr, int target, vector<int> &temp){
- 
-        if(target == 0){
-            res.push_back(temp);
-            return ;
-        }
- 
-        if(target < 0){  
-            return;
-        }
- 
-        for(int j = i; j<arr.size(); j++){
-            temp.push_back(arr[j]);
-            func(j , arr, target - arr[j] , temp); // we dont pass j+1
-            temp.pop_back();
-        }
-    }
-    vector<vector<int>> combinationSum(vector<int>& arr, int target) {
-        vector<int> temp;
-        func(0 , arr, target, temp);
+class Solution {
+    List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+
+        List<Integer> temp = new ArrayList<>();
+        combinations(candidates, target,0, res, temp);
         return res;
     }
+
+    static void combinations(int[] arr, int target, int i, List<List<Integer>> res, List<Integer> temp){
+
+        if(target == 0){
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+
+        if(target < 0){
+            return;
+        }
+
+        for(int j=i;j<arr.length;j++){
+            temp.add(arr[j]);
+            combinations(arr, target - arr[j], j, res, temp);
+            temp.remove(temp.size()-1);
+        }
+    }
+}
 
 
 COMBINATION SUM 2 -
