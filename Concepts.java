@@ -54,7 +54,7 @@ void findSolutions(n, other params) :
             findSolutions(n+1, other params);
             removeValue(val, n);
 
-// Below is an example problem to find all subsets of a superset which sum to a target values:
+// Below is an example problem to find all subsets of a superset which sum to a target values: Same elements can be repeated multiple times.
 
 class Solution {
     List<List<Integer>> res = new ArrayList<>();
@@ -85,32 +85,45 @@ class Solution {
 }
 
 
-COMBINATION SUM 2 -
-    vector<vector<int>> res;
-    void helper(int i, vector<int>& arr, int target, vector<int>& temp) {
-        if(target == 0) {
-            res.push_back(temp);
-            return;
-        }
-        
-        if(target < 0) {
-            return;
-        }
-        
-        for(int j=i; j<arr.size(); j++) {
-            if(j > i && arr[j] == arr[j-1]) continue; // Notice this line
-            temp.push_back(arr[j]);
-            helper(j+1,arr,target-arr[j],temp);       // Notice j+1 here
-            temp.pop_back();
-        }
-        
-    }
-    vector<vector<int>> combinationSum2(vector<int>& arr, int target) {
-        vector<int> temp;
-        sort(arr.begin(),arr.end());                  // We're sorting here
-        helper(0,arr,target,temp);
+// COMBINATION SUM 2 - Same element can't be used multiple times
+    
+class Solution {
+    List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+
+        List<Integer> temp = new ArrayList<>();
+        combinations(candidates, target,0, res, temp);
         return res;
     }
+
+    static void combinations(int[] arr, int target, int i, List<List<Integer>> res, List<Integer> temp){
+
+        if(target == 0){
+            res.add(new ArrayList<>(temp));
+            return;
+        }
+
+        if(target < 0){
+            return;
+        }
+
+        for(int j=i;j<arr.length;j++){
+            if(j > i && arr[j] == arr[j-1]){ continue;};
+            temp.add(arr[j]);
+            combinations(arr, target - arr[j], j+1, res, temp);
+            temp.remove(temp.size()-1);
+        }
+    }
+}
+
+class MyArray{
+    public static void main(String[] Args){
+        Solution sol = new Solution();
+        int[] arr = {4, 2, 5, 1, 3};
+        Arrays.sort(arr);
+        System.out.print(sol.combinationSum(arr, 4));
+    }
+}
 
 
 
