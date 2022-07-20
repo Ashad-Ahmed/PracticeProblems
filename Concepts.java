@@ -108,9 +108,9 @@ class Solution {
         }
 
         for(int j=i;j<arr.length;j++){
-            if(j > i && arr[j] == arr[j-1]){ continue;};
+            if(j > i && arr[j] == arr[j-1]){ continue;};           // observe this condition, this will skip any duplicate element if present
             temp.add(arr[j]);
-            combinations(arr, target - arr[j], j+1, res, temp);
+            combinations(arr, target - arr[j], j+1, res, temp);    // We pass j+1 as we don't want to use same element again and again
             temp.remove(temp.size()-1);
         }
     }
@@ -120,7 +120,7 @@ class MyArray{
     public static void main(String[] Args){
         Solution sol = new Solution();
         int[] arr = {4, 2, 5, 1, 3};
-        Arrays.sort(arr);
+        Arrays.sort(arr);                                         // We're sorting, so all the duplicate entries are next to each other
         System.out.print(sol.combinationSum(arr, 4));
     }
 }
